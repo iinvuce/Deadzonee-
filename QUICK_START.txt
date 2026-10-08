@@ -1,0 +1,16 @@
+DOVY: DEADZONE — CLOUDFLARE QUICK START
+
+1) npm install
+2) npx wrangler login
+3) npx wrangler d1 create deadzone-db
+4) Paste the returned database_id into wrangler.toml
+5) npm run db:remote
+6) npx wrangler secret put ADMIN_PASSWORD
+7) npm run deploy
+
+After deploy:
+Game:  https://<your-worker>.workers.dev/
+Admin: https://<your-worker>.workers.dev/admin
+Health: https://<your-worker>.workers.dev/api/health
+
+Full details: CLOUDFLARE_DEPLOY.md

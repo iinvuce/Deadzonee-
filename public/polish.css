@@ -1,0 +1,626 @@
+/* DOVY: DEADZONE 0.5.0 visual layer — loaded after the game bundle. */
+:root{--dz-amber:#e2a64a;--dz-red:#c84a42;--dz-green:#7fb36a;--dz-ink:#07090a}
+.menu{background:#060708 url("assets/harrow-cut-0510.png") center/cover no-repeat!important;isolation:isolate}
+.menu>canvas{opacity:.12;filter:saturate(.78) contrast(1.08) brightness(.72)}
+.menu .menu-shade{background:linear-gradient(90deg,rgba(3,5,6,.96) 0%,rgba(5,7,8,.84) 32%,rgba(5,7,8,.34) 66%,rgba(3,4,5,.67) 100%)!important;backdrop-filter:blur(.2px)}
+.menu-left{animation:dzSlideIn .52s cubic-bezier(.2,.75,.2,1) both}
+.menu-top{animation:dzDropIn .45s ease-out both}
+.menu-dock{animation:dzRiseIn .52s .05s ease-out both}
+.menu-news .news{background:linear-gradient(135deg,rgba(14,17,18,.88),rgba(8,10,11,.7));border-color:rgba(226,166,74,.18);backdrop-filter:blur(10px)}
+.mnav,.dock-btn,.play-btn{transition:transform .14s ease,filter .14s ease,border-color .14s ease,background .14s ease}
+.mnav:active,.dock-btn:active,.play-btn:active{transform:scale(.975)}
+.play-btn{box-shadow:0 12px 34px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.07)}
+
+/* Safehouse farming: visually legible at a glance instead of plain admin cards. */
+.farm-hero{min-height:126px;margin:0 0 10px;padding:16px 18px;display:flex;align-items:flex-end;justify-content:space-between;gap:14px;position:relative;overflow:hidden;border:1px solid rgba(226,166,74,.3);background:linear-gradient(90deg,rgba(7,10,8,.94),rgba(7,10,8,.58) 56%,rgba(7,10,8,.22)),url("assets/farm.jpg") center 52%/cover no-repeat;box-shadow:inset 0 1px rgba(255,255,255,.04),0 12px 32px rgba(0,0,0,.28)}
+.farm-hero:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 40%,rgba(2,4,3,.72)),repeating-linear-gradient(0deg,rgba(255,255,255,.015) 0 1px,transparent 1px 4px)}
+.farm-copy,.farm-kpis{position:relative;z-index:1}.farm-copy{display:flex;flex-direction:column;gap:5px;max-width:560px}.farm-copy b{font-family:var(--display);font-size:25px;letter-spacing:.08em;color:#f0d49a}.farm-copy span{font-size:12px;line-height:1.4;color:#c5c9c0}.farm-kpis{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.farm-kpis span{padding:6px 8px;border:1px solid rgba(255,255,255,.12);background:rgba(3,5,4,.72);font:12px var(--mono);color:#c5c9c0}.farm-kpis span.ready{border-color:rgba(127,179,106,.65);color:#a9e392;box-shadow:0 0 18px rgba(95,170,82,.12)}
+.farm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:9px}
+.grow-plot{position:relative;overflow:hidden;min-height:142px;border-color:rgba(130,165,102,.28)!important;background:linear-gradient(145deg,rgba(24,33,25,.91),rgba(9,13,10,.94))!important;transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease}
+.grow-plot:before{content:"";position:absolute;right:-20px;bottom:-24px;width:120px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(91,132,75,.23),transparent 68%);pointer-events:none}
+.grow-plot.contraband{border-color:rgba(180,110,240,.3)!important;background:linear-gradient(145deg,rgba(32,20,38,.92),rgba(11,8,14,.95))!important}
+.grow-plot.harvest-ready{border-color:rgba(127,211,111,.75)!important;box-shadow:inset 0 0 0 1px rgba(127,211,111,.18),0 0 22px rgba(75,160,67,.12);animation:none}
+.grow-plot .thumb{filter:drop-shadow(0 7px 10px rgba(0,0,0,.35));transform:scale(1.06)}
+.grow-plot .prog{height:8px!important;background:rgba(0,0,0,.5)!important}
+
+/* Character/customisation and store screens get image depth without blocking their controls. */
+.screen:has(.look-grid),.screen:has(.outfit-grid){background-image:linear-gradient(rgba(5,7,8,.84),rgba(5,7,8,.94)),url("assets/characters.jpg");background-size:cover;background-position:center}
+.screen:has(.store-grid){background-image:linear-gradient(rgba(5,7,8,.9),rgba(5,7,8,.97)),url("assets/world.jpg");background-size:cover;background-position:center}
+.screen:has(.squad-list){background-image:linear-gradient(rgba(5,7,8,.86),rgba(5,7,8,.95)),url("assets/coop.jpg");background-size:cover;background-position:center}
+.panel{backdrop-filter:blur(7px)}
+
+/* Give money and store elements a more intentional commercial hierarchy. */
+.c-cash{color:#f0cf83!important}.c-credits{color:#b7a0ff!important}.c-tokens{color:#ff839b!important}
+.store-card,.shop-card{transition:transform .14s ease,border-color .14s ease,box-shadow .14s ease}
+.store-card:active,.shop-card:active{transform:scale(.985)}
+.test-banner{border-color:#80584a!important;background:rgba(83,47,36,.35)!important;color:#f3c3aa!important}
+
+/* Loading and raid-end polish. */
+.boot{background-image:linear-gradient(90deg,rgba(3,4,5,.9),rgba(3,4,5,.52)),url("assets/world.jpg")!important;background-size:cover!important;background-position:center!important}
+.raid-end{animation:dzModalIn .38s cubic-bezier(.17,.77,.3,1) both}
+.modal,.screen{animation:dzScreenIn .22s ease-out both}
+
+@keyframes dzSlideIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+@keyframes dzDropIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes dzRiseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes dzModalIn{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes dzScreenIn{from{opacity:.45}to{opacity:1}}
+@keyframes cropReady{50%{box-shadow:inset 0 0 0 1px rgba(127,211,111,.25),0 0 28px rgba(75,160,67,.22)}}
+@media  (max-height:430px){.farm-hero{min-height:94px;padding:10px 12px}.farm-copy b{font-size:20px}.farm-copy span{display:none}.farm-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}.grow-plot{min-height:118px}}
+@media  (prefers-reduced-motion:reduce){.menu-left,.menu-top,.menu-dock,.modal,.screen,.raid-end,.grow-plot.harvest-ready{animation:none!important}.mnav,.dock-btn,.play-btn,.grow-plot{transition:none!important}}
+
+/* ── 0.5.1 Stable Polish ───────────────────────────────────────────── */
+:root{--dz-panel:rgba(11,13,14,.86);--dz-panel-soft:rgba(11,13,14,.68);--dz-line:rgba(232,224,208,.16);--dz-line-hot:rgba(226,166,74,.42)}
+
+/* Raid HUD: quieter surfaces, stronger hierarchy, fewer competing boxes. */
+.hud .tl,.hud .tr,.clockbox,.wp,.qs,.objective,.mate{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
+.vitals,.clockbox,.wp,.qs,.mate{background:linear-gradient(180deg,rgba(24,27,28,.82),rgba(7,9,10,.78))!important;border-color:var(--dz-line)!important;box-shadow:inset 0 1px rgba(255,255,255,.045),0 5px 18px rgba(0,0,0,.26)!important}
+.objective{background:linear-gradient(180deg,rgba(24,27,28,.88),rgba(8,10,11,.78))!important;border-color:var(--dz-line-hot)!important}
+.weapon-panel{filter:drop-shadow(0 8px 14px rgba(0,0,0,.28));}
+
+
+
+
+
+
+/* Loading is cinematic/horror but legible and restrained. */
+.loading{background:linear-gradient(90deg,rgba(2,3,4,.94),rgba(4,5,5,.64) 56%,rgba(2,3,4,.58)),url("assets/world.jpg") center/cover no-repeat!important;padding-bottom:calc(28px + var(--sa-b))!important}
+.loading::before{z-index:-1!important;background:radial-gradient(ellipse at 70% 45%,rgba(134,28,20,.13),transparent 28%),radial-gradient(ellipse at center,transparent 36%,rgba(0,0,0,.72) 100%),repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px)!important;animation:dzLoadFog 9s ease-in-out infinite alternate}
+.loading::after{height:34%!important;opacity:.13!important;background-image:linear-gradient(rgba(226,166,74,.25) 1px,transparent 1px),linear-gradient(90deg,rgba(226,166,74,.25) 1px,transparent 1px)!important;background-size:64px 64px!important;animation:gridRun 2.4s linear infinite!important}
+.ld-orb{opacity:.5;filter:hue-rotate(-35deg) saturate(.7)}
+.ld-kicker{color:#a8a59c!important}.ld-where{color:#f0ece1!important;text-shadow:0 3px 18px rgba(0,0,0,.65)}
+.loading .tip{background:rgba(9,11,12,.72)!important;border-color:rgba(226,166,74,.24)!important;border-radius:9px!important;box-shadow:0 10px 28px rgba(0,0,0,.26)}
+.loading .tip b{color:#d8a652!important}.loading .lbar{height:10px!important;border-radius:2px!important;border-color:rgba(226,166,74,.28)!important;background:rgba(0,0,0,.66)!important}.loading .lbar i{border-radius:1px!important;background:linear-gradient(90deg,#7e3d2f,#c77843 42%,#e2a64a)!important;box-shadow:0 0 14px rgba(226,166,74,.32)!important;animation:none!important}
+
+/* Screens/modal polish: consistent rhythm, no giant web-dashboard feel. */
+.screen>.topbar{background:linear-gradient(180deg,rgba(8,10,11,.94),rgba(8,10,11,.72));border-bottom:1px solid rgba(232,224,208,.09);backdrop-filter:blur(10px)}
+.panel,.sheet{border-color:rgba(232,224,208,.14)!important;box-shadow:inset 0 1px rgba(255,255,255,.035),0 10px 28px rgba(0,0,0,.26)!important}
+.btn,.ibtn,.mnav,.dock-btn,.play-btn,.tab,.qs{transition:transform .11s ease,filter .13s ease,border-color .16s ease,background .16s ease!important}
+.btn.pressed,.ibtn.pressed,.mnav.pressed,.dock-btn.pressed,.play-btn.pressed,.tab.pressed,.qs.pressed{transform:scale(.97)!important}
+
+/* End screen prioritises one next action and remains usable on short phones. */
+.raid-end{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.raid-end .btn.primary,.raid-end .btn.teal{min-height:44px}
+
+/* Better short-landscape fit without hiding core information. */
+@media  (max-height:500px){
+  .hud .tl,.hud .tr{}.compass{transform:translateX(-50%) scale(.9)!important;transform-origin:top center}.weapon-panel{}
+  .objective{font-size:10.5px!important;max-width:36%!important}.squad-list{transform:scale(.86);transform-origin:top right}
+  .loading .tip{margin:7px 0 9px!important;padding:7px 10px!important;font-size:12px!important}.ld-where{font-size:25px!important}.ld-orb{transform:scale(.8);transform-origin:center}
+}
+@media  (max-height:390px){.objective{display:none!important}.hud .tl,.hud .tr{}.weapon-panel{left:44%!important;}.loading .tip{max-width:56%;font-size:11px!important}.loading .studio{display:none}}
+
+@keyframes dzInteractBreathe{50%{box-shadow:0 5px 14px rgba(0,0,0,.4),0 0 18px rgba(226,166,74,.26)}}
+@keyframes dzLoadFog{from{transform:translate3d(-.8%,.4%,0) scale(1.01)}to{transform:translate3d(.8%,-.4%,0) scale(1.025)}}
+@media  (prefers-reduced-motion:reduce){.loading::before{animation:none!important}.btn,.ibtn,.mnav,.dock-btn,.play-btn,.tab,.qs{transition:none!important}}
+
+/* ── 0.5.3 Audio + Visual Polish ────────────────────────────────────── */
+:root{
+  --dz-glass:rgba(9,11,12,.76);
+  --dz-glass-strong:rgba(8,10,11,.90);
+  --dz-soft-white:#e9e5dc;
+  --dz-muted:#a8a59b;
+  --dz-shadow:0 12px 34px rgba(0,0,0,.34);
+}
+
+/* Keep motion purposeful: screens settle quickly, controls feel physical, no floaty web UI. */
+.screen,.sheet,.modal,.raid-end{transform-origin:center center}
+.screen{animation:dzFadeSettle .20s ease-out both}
+.sheet,.modal{animation:dzPanelSettle .22s cubic-bezier(.2,.75,.25,1) both}
+#toasts>*{animation:dzToastIn .22s cubic-bezier(.16,.84,.3,1) both}
+.btn,.ibtn,.mnav,.dock-btn,.play-btn,.tab,.qs{will-change:transform}
+.btn:active,.ibtn:active,.mnav:active,.dock-btn:active,.play-btn:active,.tab:active,.qs:active{filter:brightness(1.06)}
+
+/* Menu gets depth without turning into a moving wallpaper. */
+.menu::after{
+  content:"";position:absolute;inset:-4%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 72% 42%,rgba(184,60,44,.08),transparent 24%),
+    linear-gradient(115deg,transparent 36%,rgba(255,255,255,.018) 52%,transparent 65%);
+  mix-blend-mode:screen;opacity:.8;animation:dzMenuBreath 8s ease-in-out infinite alternate
+}
+.menu-left,.menu-top,.menu-dock,.menu-news{position:absolute;z-index:2}
+.menu-news .news,.panel,.sheet{background-color:var(--dz-glass)!important}
+.wordmark .dz{text-shadow:0 0 20px rgba(190,56,43,.18)}
+.play-btn.glow{box-shadow:0 12px 32px rgba(0,0,0,.34),0 0 26px rgba(226,166,74,.10)!important}
+
+/* Cleaner tactical HUD. */
+.vitals,.clockbox,.wp,.qs,.mate,.objective,.event-card,.progress-ring{
+  border-radius:6px!important;
+  backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)
+}
+.objective,.event-card{box-shadow:0 7px 22px rgba(0,0,0,.25),inset 0 1px rgba(255,255,255,.035)!important}
+.extract-banner{animation:dzExtractIn .2s ease-out both,dzExtractPulse 1.6s ease-in-out .25s infinite}
+.progress-ring:not(.hidden){animation:dzPromptIn .16s cubic-bezier(.16,.84,.3,1) both}
+
+
+
+
+
+
+
+/* Raid canvas stays crisp; visual overlays do the atmosphere instead of filters that blur gameplay. */
+.layer>canvas{image-rendering:auto}
+.raid-end{background:radial-gradient(circle at 50% 40%,rgba(22,25,25,.80),rgba(4,5,6,.96))!important}
+.raid-end h1{letter-spacing:.045em;text-shadow:0 4px 26px rgba(0,0,0,.45)}
+.raid-end .cause{color:var(--dz-muted)!important}
+
+/* Loading: horror tension, readable progress, no noisy arcade effects. */
+.loading{isolation:isolate;overflow:hidden}
+.loading::before{z-index:0!important;opacity:.82;filter:blur(.3px)}
+.loading::after{z-index:0!important}
+.loading>*{position:relative;z-index:2}
+.loading .ld-orb{animation:dzOrbDrift 6.8s ease-in-out infinite alternate}
+.loading .ld-kicker{letter-spacing:.2em!important}
+.loading .ld-where{letter-spacing:.055em!important}
+.loading .lbar{overflow:hidden!important;position:relative}
+.loading .lbar:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);transform:translateX(-120%);animation:dzBarSweep 1.8s ease-in-out infinite}
+.loading .studio{opacity:.64;letter-spacing:.18em}
+
+/* Forms and inventory feel like game panels, not web forms. */
+input,select,textarea{transition:border-color .14s ease,background .14s ease,box-shadow .14s ease}
+input:focus,select:focus,textarea:focus{outline:none!important;border-color:rgba(226,166,74,.55)!important;box-shadow:0 0 0 2px rgba(226,166,74,.09)!important}
+.item-card,.slot,.store-card,.shop-card,.grow-plot{transition:transform .13s ease,border-color .15s ease,background .15s ease,box-shadow .15s ease}
+@media  (hover:hover) and (pointer:fine){
+  .item-card:hover,.slot:hover,.store-card:hover,.shop-card:hover,.grow-plot:hover{transform:translateY(-1px);border-color:rgba(226,166,74,.34)!important}
+}
+
+/* Short landscape phones: preserve control space and minimise secondary chrome. */
+@media  (max-height:460px){
+  .menu-news{display:none!important}.menu-left{transform:scale(.93);transform-origin:left center}.menu-dock{transform:scale(.90);transform-origin:right bottom}
+  .clockbox .zone-name:last-child{display:none}.objective{max-width:34%!important}.squad-list{max-height:86px;overflow:hidden}
+  .loading .ld-kicker{font-size:10px!important}.loading .ld-where{font-size:22px!important}.loading .tip{line-height:1.25!important}
+}
+
+@keyframes dzFadeSettle{from{opacity:.25}to{opacity:1}}
+@keyframes dzPanelSettle{from{opacity:0;transform:translateY(7px) scale(.992)}to{opacity:1;transform:none}}
+@keyframes dzToastIn{from{opacity:0;transform:translateX(10px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes dzMenuBreath{from{transform:translate3d(-.25%,0,0) scale(1.005);opacity:.55}to{transform:translate3d(.25%,-.2%,0) scale(1.012);opacity:.9}}
+@keyframes dzExtractIn{from{opacity:0;transform:translateY(-5px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes dzExtractPulse{50%{filter:brightness(1.08)}}
+@keyframes dzPromptIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes dzOrbDrift{from{transform:translate3d(-4px,2px,0) scale(.96);opacity:.36}to{transform:translate3d(6px,-3px,0) scale(1.04);opacity:.56}}
+@keyframes dzBarSweep{0%,35%{transform:translateX(-120%)}70%,100%{transform:translateX(120%)}}
+
+@media  (prefers-reduced-motion:reduce){
+  .screen,.sheet,.modal,.raid-end,#toasts>*,.menu::after,.extract-banner,.progress-ring,.loading .ld-orb,.loading .lbar:after{animation:none!important}
+}
+
+
+/* ── 0.5.4 Professional Button System ─────────────────────────────────
+   One restrained tactical language across menu, sheets, HUD and touch UI.
+   No jelly capsules, sweeping gloss or permanent glow. */
+:root{
+  --dz-btn-bg:#171a1c;
+  --dz-btn-bg-hi:#202427;
+  --dz-btn-border:rgba(236,231,220,.18);
+  --dz-btn-border-hi:rgba(236,231,220,.32);
+  --dz-btn-text:#eee9df;
+  --dz-btn-muted:#aaa79f;
+  --dz-btn-amber:#d9a451;
+  --dz-btn-amber-hi:#ebc174;
+  --dz-btn-red:#b94a42;
+  --dz-btn-radius:5px;
+  --dz-btn-shadow:0 6px 18px rgba(0,0,0,.26),inset 0 1px rgba(255,255,255,.035);
+}
+
+/* Standard action buttons */
+.btn{
+  min-height:42px!important;
+  padding:0 16px!important;
+  border-radius:var(--dz-btn-radius)!important;
+  border:1px solid var(--dz-btn-border)!important;
+  background:linear-gradient(180deg,var(--dz-btn-bg-hi),var(--dz-btn-bg))!important;
+  color:var(--dz-btn-text)!important;
+  box-shadow:var(--dz-btn-shadow)!important;
+  font-family:var(--ui)!important;
+  font-size:13px!important;
+  font-weight:700!important;
+  letter-spacing:.065em!important;
+  text-transform:uppercase!important;
+  text-shadow:none!important;
+  transition:transform .10s cubic-bezier(.2,.75,.25,1),border-color .14s ease,background .14s ease,color .14s ease,box-shadow .14s ease,opacity .14s ease!important;
+}
+.btn::before{display:none!important}
+.btn.primary{
+  background:linear-gradient(180deg,var(--dz-btn-amber-hi),var(--dz-btn-amber) 55%,#a8752f)!important;
+  border-color:rgba(255,222,161,.58)!important;
+  color:#17130d!important;
+  box-shadow:0 7px 20px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.30)!important;
+}
+.btn.teal{
+  background:linear-gradient(180deg,#39555d,#263c42)!important;
+  border-color:rgba(151,202,211,.34)!important;
+  color:#eaf4f5!important;
+  box-shadow:var(--dz-btn-shadow)!important;
+}
+.btn.danger{
+  background:linear-gradient(180deg,#913e39,#6e2b29)!important;
+  border-color:rgba(230,119,108,.38)!important;
+  color:#fff0ed!important;
+  box-shadow:var(--dz-btn-shadow)!important;
+}
+.btn.ghost{
+  background:rgba(10,12,13,.54)!important;
+  border-color:rgba(236,231,220,.13)!important;
+  color:#c7c4bc!important;
+  box-shadow:inset 0 1px rgba(255,255,255,.025)!important;
+}
+.btn.small{min-height:34px!important;padding:0 12px!important;font-size:11px!important}
+.btn:disabled,.btn.disabled{opacity:.34!important;filter:saturate(.45)!important;cursor:not-allowed!important;box-shadow:none!important}
+.btn.pressed,.btn:active{transform:translateY(1px) scale(.985)!important;filter:brightness(.96)!important;box-shadow:0 2px 8px rgba(0,0,0,.28),inset 0 1px 3px rgba(0,0,0,.20)!important}
+@media  (hover:hover) and (pointer:fine){
+  .btn:not(:disabled):hover{transform:translateY(-1px)!important;border-color:var(--dz-btn-border-hi)!important;filter:none!important}
+  .btn.primary:not(:disabled):hover{background:linear-gradient(180deg,#f0c984,#dfa955 55%,#ae7930)!important;border-color:rgba(255,229,181,.72)!important}
+}
+
+/* Main deploy action: authoritative, flat and readable. */
+.play-btn{
+  height:56px!important;
+  padding:0 18px!important;
+  border-radius:10px!important;
+  border:1px solid rgba(255,222,161,.58)!important;
+  background:linear-gradient(180deg,var(--dz-btn-amber-hi),var(--dz-btn-amber) 54%,#a8752f)!important;
+  color:#17130d!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.34),inset 0 1px rgba(255,255,255,.30)!important;
+  text-shadow:none!important;
+  font-size:22px!important;
+  letter-spacing:.08em!important;
+  transition:transform .11s cubic-bezier(.2,.75,.25,1),filter .14s ease,background .14s ease!important;
+}
+.play-btn::before,.play-btn::after{display:none!important}
+.play-btn.glow{animation:none!important}
+.play-btn small{font-size:10px!important;letter-spacing:.08em!important;opacity:.72!important;color:#392b18!important}
+.play-btn.pressed,.play-btn:active{transform:translateY(1px) scale(.988)!important;filter:brightness(.96)!important}
+@media  (hover:hover) and (pointer:fine){.play-btn:hover{transform:translateY(-1px)!important;filter:brightness(1.035)!important}}
+
+/* Main-menu navigation: proper rows, not floating pills. */
+.mnav{
+  min-height:42px!important;
+  border:1px solid transparent!important;
+  border-radius:8px!important;
+  padding:0 12px!important;
+  background:rgba(10,12,13,.24)!important;
+  color:#d4d0c8!important;
+  font-size:13px!important;
+  letter-spacing:.07em!important;
+  gap:9px!important;
+}
+.mnav::before{
+  left:0!important;top:8px!important;bottom:8px!important;width:2px!important;height:auto!important;margin:0!important;border-radius:2px!important;
+  background:var(--dz-btn-amber)!important;box-shadow:none!important;opacity:.28!important;
+}
+.mnav .ic{color:#a9a69e!important;filter:none!important;width:18px!important;height:18px!important}
+.mnav .note{border-radius:4px!important;background:#6d5430!important;color:#f1dfbc!important;box-shadow:none!important;padding:2px 6px!important}
+.mnav.pressed,.mnav:active{transform:translateX(1px)!important;background:rgba(226,166,74,.075)!important;color:#f2e7d1!important}
+@media  (hover:hover) and (pointer:fine){.mnav:hover{transform:translateX(2px)!important;background:rgba(226,166,74,.065)!important;border-color:rgba(226,166,74,.12)!important;color:#f2e7d1!important}.mnav:hover .ic{color:#d8b26d!important}}
+
+/* Bottom-dock / icon buttons */
+.dock-btn,.ibtn{
+  border-radius:8px!important;
+  border:1px solid var(--dz-btn-border)!important;
+  background:linear-gradient(180deg,rgba(36,40,42,.94),rgba(18,20,21,.96))!important;
+  box-shadow:var(--dz-btn-shadow)!important;
+  color:#d8d5cd!important;
+}
+.dock-btn{width:56px!important;height:50px!important;font-size:9px!important;letter-spacing:.075em!important;gap:4px!important}
+.dock-btn .ic,.ibtn .ic{color:#b4b2ab!important;filter:none!important}
+.dock-btn.hot{background:linear-gradient(180deg,#3b3127,#241f1a)!important;border-color:rgba(226,166,74,.30)!important}
+.dock-btn.hot .ic{color:#dcb56d!important;filter:none!important}
+.dock-btn.pressed,.dock-btn:active,.ibtn.pressed,.ibtn:active{transform:translateY(1px) scale(.97)!important;filter:brightness(.96)!important}
+@media  (hover:hover) and (pointer:fine){.dock-btn:hover,.ibtn:hover{transform:translateY(-1px)!important;border-color:var(--dz-btn-border-hi)!important;filter:none!important}}
+
+/* Tabs / segmented selectors */
+.tabs{gap:2px!important;padding:3px!important;border-radius:9px!important;background:rgba(8,10,11,.62)!important;border-color:rgba(232,224,208,.12)!important}
+.tab{
+  min-height:34px!important;border-radius:6px!important;padding:0 12px!important;color:#98958e!important;font-size:11px!important;letter-spacing:.065em!important;
+}
+.tab.on{background:#292621!important;color:#f2e5cb!important;box-shadow:inset 0 0 0 1px rgba(226,166,74,.22)!important;text-shadow:none!important}
+.tab.pressed,.tab:active{transform:scale(.985)!important}
+.seg button{border-radius:6px!important;border:1px solid transparent!important;min-height:34px!important}
+.seg button.on{background:#332b20!important;color:#f1dfbb!important;box-shadow:inset 0 0 0 1px rgba(226,166,74,.22)!important}
+
+/* In-raid controls: tactical matte controls; important actions still distinct. */
+
+
+
+
+
+
+
+
+
+/* Quick-slot buttons retain information hierarchy without neon. */
+.qs{border-radius:7px!important;border-color:rgba(232,224,208,.14)!important;box-shadow:0 4px 12px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.025)!important}
+.qs.pressed,.qs:active{transform:translateY(1px) scale(.98)!important}
+
+/* Touch ergonomics */
+@media  (pointer:coarse){
+  .btn{min-height:44px!important}.btn.small{min-height:38px!important}.mnav{min-height:44px!important}.tab{min-height:38px!important}
+  .dock-btn{min-width:52px!important;min-height:50px!important}
+}
+
+/* ── 0.5.5 Control Layout + Co-op UX ────────────────────────────────
+   Fixes the actual positioning problem: absolutely-positioned raid controls
+   must keep their translate anchor while pressed. */
+:root{--dz-ui-gap:8px}
+
+/* Main menu uses three deliberate zones instead of floating controls. */
+.menu-left{
+  left:calc(16px + var(--sa-l))!important;
+  top:calc(14px + var(--sa-t))!important;
+  bottom:calc(14px + var(--sa-b))!important;
+  width:clamp(232px,31vw,292px)!important;
+  gap:8px!important;
+  transform:none!important;
+}
+.menu-nav{gap:4px!important;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}.menu-nav>button{flex-shrink:0}
+.mnav{width:100%!important;box-sizing:border-box!important}
+.menu-top{
+  flex-wrap:wrap;justify-content:flex-end;box-sizing:border-box;
+  right:calc(14px + var(--sa-r))!important;
+  top:calc(12px + var(--sa-t))!important;
+  gap:5px!important;
+  max-width:calc(100% - 340px - var(--sa-r) - var(--sa-l))!important;
+  padding:5px!important;
+  border:1px solid rgba(236,231,220,.10)!important;
+  border-radius:10px!important;
+  background:rgba(8,10,11,.64)!important;
+  backdrop-filter:blur(9px)!important;
+}
+.menu-news{
+  right:calc(14px + var(--sa-r))!important;
+  top:calc(72px + var(--sa-t))!important;
+  width:clamp(210px,27vw,270px)!important;
+  gap:5px!important;
+}
+.menu-dock{
+  right:calc(14px + var(--sa-r))!important;
+  bottom:calc(14px + var(--sa-b))!important;
+  gap:5px!important;
+  padding:5px!important;
+  border:1px solid rgba(236,231,220,.10)!important;
+  border-radius:10px!important;
+  background:rgba(8,10,11,.68)!important;
+  backdrop-filter:blur(9px)!important;
+  transform:none!important;
+}
+.dock-btn{width:54px!important;height:48px!important}
+
+/* Critical fix: pressed absolute controls no longer lose their centring
+   translate and jump across the screen. */
+
+
+
+
+
+/* Action buttons read as one thumb cluster. Secondary actions are icon-led. */
+
+
+
+
+@media  (pointer:coarse){
+  
+  
+}
+
+/* Squad screen is now a single obvious workflow. */
+.squad-screen{
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  overflow-y:auto!important;
+  touch-action:pan-y!important;
+  gap:10px!important;
+}
+.coop-status{
+  align-self:flex-start;
+  min-height:28px;
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:0 10px;
+  border:1px solid rgba(236,231,220,.13);
+  border-radius:7px;
+  background:rgba(8,10,11,.72);
+  font:700 10px var(--mono);
+  letter-spacing:.12em;
+}
+.coop-status i{width:7px;height:7px;border-radius:50%;background:#7a7d7b}
+.coop-status.online{color:#a7d59a;border-color:rgba(127,179,106,.28)}
+.coop-status.online i{background:#7fb36a;box-shadow:0 0 8px rgba(127,179,106,.35)}
+.coop-status.offline{color:#c9a29c;border-color:rgba(185,74,66,.28)}
+.coop-status.offline i{background:#b94a42}
+.coop-offline,.coop-start,.coop-room{width:min(620px,100%)!important;box-sizing:border-box!important}
+.coop-offline p,.coop-choice p{margin:0;color:#aaa79f;font-size:13px;line-height:1.45}
+.coop-steps{display:grid;gap:5px;margin:12px 0;padding:10px;border:1px solid rgba(236,231,220,.10);background:rgba(0,0,0,.18);font-size:13px}
+.coop-steps b{color:#eee9df}.coop-steps span{color:#b9b6ae}
+.coop-start{display:grid!important;grid-template-columns:1fr auto 1fr!important;align-items:stretch!important;gap:10px!important}
+.coop-choice{display:flex;flex-direction:column;gap:10px;min-width:0}
+.coop-choice-copy{min-height:54px}.coop-choice h3{margin-bottom:5px!important;color:#d8d4cb!important}
+.coop-divider{display:grid;place-items:center;color:#666862;font:700 10px var(--mono);letter-spacing:.12em;padding:0 2px}
+.coop-join{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;margin-top:auto}
+.squad-code{width:100%!important;min-width:0!important;border-radius:7px!important;padding:0 12px!important;letter-spacing:.28em!important;text-align:center!important;text-transform:uppercase!important}
+.coop-room-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.coop-code{display:block;font:800 clamp(28px,5vw,40px) var(--mono);letter-spacing:.28em;color:#e8c47e;margin-top:2px}
+.squad-members{display:grid!important;gap:6px!important;margin:8px 0!important}
+.squad-member{border-radius:8px!important;background:rgba(10,12,13,.54)!important}
+.squad-member.ready{border-color:rgba(127,179,106,.30)!important}
+.ready-state{font:700 10px var(--mono);letter-spacing:.10em;color:#8e918c}
+.squad-member.ready .ready-state{color:#9bc78f}
+.coop-actions{display:grid;grid-template-columns:1fr 1.35fr auto;gap:7px;align-items:center;margin-top:10px}
+.coop-wait{min-height:42px;display:grid;place-items:center;text-align:center;border:1px solid rgba(236,231,220,.10);border-radius:8px;color:#9b9d98;font-size:12px;padding:0 12px}
+
+@media  (max-width:720px){
+  .menu-top{max-width:52%!important}
+  .menu-news{width:min(235px,31%)!important}
+  .coop-start{grid-template-columns:1fr!important}
+  .coop-divider{height:18px}
+}
+@media  (max-height:460px){
+  .menu-left{width:258px!important;top:calc(9px + var(--sa-t))!important;bottom:calc(9px + var(--sa-b))!important;transform:none!important}
+  .menu-top{top:calc(7px + var(--sa-t))!important;transform:none!important}
+  .menu-dock{bottom:calc(8px + var(--sa-b))!important;transform:none!important}
+  .menu-news{display:none!important}
+  .dock-btn{width:50px!important;height:44px!important}
+  .squad-screen{padding-top:7px!important;padding-bottom:8px!important}
+  .coop-room-head{margin-bottom:5px}.squad-members{margin:5px 0!important}
+}
+@media  (max-width:560px){
+  .coop-actions{grid-template-columns:1fr 1fr}.coop-actions>.btn.ghost:last-child{grid-column:1/-1}
+}
+
+
+/* 0.5.7 — Harrow Cut market + field building polish */
+.market-shell{background:radial-gradient(80% 120% at 82% 20%,rgba(191,132,58,.10),transparent 55%),linear-gradient(180deg,rgba(8,10,12,.92),rgba(5,7,8,.98));}
+.market-screen{display:flex;flex-direction:column;gap:12px;overflow:auto;padding-bottom:calc(18px + var(--sa-b));}
+.market-hero{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:16px;padding:18px;border:1px solid rgba(225,169,92,.20);border-radius:16px;background:linear-gradient(135deg,rgba(38,31,23,.82),rgba(17,20,22,.86));position:relative;overflow:hidden;}
+.market-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 45%,rgba(232,178,98,.055) 46%,transparent 48%);pointer-events:none;}
+.market-hero h2{font-family:var(--display);font-size:clamp(26px,4vw,42px);line-height:.95;margin:4px 0 6px;letter-spacing:.04em;text-transform:uppercase;}
+.market-hero p,.market-foot span{color:var(--dim);font-size:13px;max-width:620px;}
+.market-safe{position:absolute;right:14px;top:12px;display:flex;align-items:center;gap:6px;font-size:10px;font-weight:900;letter-spacing:.16em;color:#91d690;}
+.market-safe .ic{width:15px;height:15px;}
+.market-wallet{min-width:150px;display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--lineHi);border-radius:12px;background:rgba(0,0,0,.22);}
+.market-wallet .ic{width:26px;height:26px;color:var(--accHi)}.market-wallet div{display:flex;flex-direction:column}.market-wallet span{font-size:9px;letter-spacing:.13em;color:var(--dim)}.market-wallet b{font-family:var(--display);font-size:24px;color:var(--accHi)}
+.market-stalls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.market-stall{min-height:88px;text-align:left;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,rgba(29,31,32,.94),rgba(17,19,20,.96));color:var(--fg);display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px;transition:border-color .14s,background .14s,transform .08s}.market-stall:active{transform:translateY(1px)}.market-stall:hover{border-color:rgba(229,166,83,.42)}.stall-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid var(--line)}.stall-icon .ic{width:23px;height:23px;color:var(--accHi)}.market-stall b{display:block;font-family:var(--display);font-size:17px;letter-spacing:.04em}.market-stall span{display:block;color:var(--dim);font-size:11px;line-height:1.25;margin-top:2px}.market-stall strong{font-size:9px;letter-spacing:.12em;color:var(--accHi)}
+.market-sec{display:flex;justify-content:space-between;align-items:end;gap:10px}.market-sec h3{font-family:var(--display);font-size:22px;margin:0}.market-sec p{font-size:11px;color:var(--dim);margin:2px 0 0}.market-note{font-size:9px;letter-spacing:.14em;color:#9bd69a;border:1px solid rgba(100,190,115,.25);padding:5px 8px;border-radius:999px;background:rgba(60,120,70,.08)}
+.crate-grid{display:grid;grid-template-columns:repeat(5,minmax(145px,1fr));gap:8px}.cash-crate{text-align:left;min-height:190px;padding:13px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(160deg,rgba(35,34,31,.98),rgba(15,17,18,.98));color:var(--fg);display:flex;flex-direction:column;gap:8px;transition:border-color .14s,transform .08s,background .14s}.cash-crate:not(:disabled):hover{border-color:rgba(227,167,87,.48);background:linear-gradient(160deg,rgba(43,38,31,.98),rgba(17,19,20,.98))}.cash-crate:not(:disabled):active{transform:translateY(1px)}.cash-crate:disabled{opacity:.46;filter:saturate(.6)}.crate-top{display:flex;justify-content:space-between;align-items:center}.crate-top>span{font-size:9px;letter-spacing:.14em;color:var(--dim)}.crate-icon{width:40px;height:40px;display:grid;place-items:center;border:1px solid rgba(225,165,83,.25);background:rgba(225,165,83,.06);border-radius:9px}.crate-icon .ic{width:22px;height:22px;color:var(--accHi)}.cash-crate h4{font-family:var(--display);font-size:17px;margin:0;letter-spacing:.035em}.cash-crate p{font-size:11px;color:var(--dim);line-height:1.3;margin:0;flex:1}.crate-price{display:flex;align-items:center;gap:5px;font-family:var(--display);font-size:18px;color:var(--accHi);padding-top:8px;border-top:1px solid var(--line)}.crate-price .ic{width:16px;height:16px}.crate-price small{margin-left:auto;font:600 9px var(--body);text-transform:uppercase;letter-spacing:.08em;color:var(--dim)}.market-foot{display:flex;align-items:center;gap:10px;padding:10px 12px}.market-foot>.ic{width:20px;height:20px;color:#8ccc8e}.market-foot b,.market-foot span{display:block}
+.build-stock{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(225,165,83,.22);border-radius:10px;background:rgba(225,165,83,.05)}.build-stock>.ic{width:24px;height:24px;color:var(--accHi)}.build-stock b,.build-stock span{display:block}.build-stock b{font-family:var(--display);font-size:18px}.build-stock span{font-size:10px;color:var(--dim)}.build-option{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:10px;text-align:left;min-height:64px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:rgba(21,23,24,.96);color:var(--fg)}.build-option:disabled{opacity:.4}.build-option:not(:disabled):active{transform:translateY(1px)}.build-option .build-ico{width:38px;height:38px;display:grid;place-items:center;border-radius:8px;background:rgba(255,255,255,.035)}.build-option .ic{width:20px;height:20px;color:var(--accHi)}.build-option b,.build-option span{display:block}.build-option b{font-family:var(--display);font-size:16px}.build-option span{font-size:10px;color:var(--dim)}.build-option strong{font-size:10px;color:var(--accHi);white-space:nowrap}
+@media  (max-width:900px){.crate-grid{grid-template-columns:repeat(3,minmax(135px,1fr))}.market-stalls{grid-template-columns:1fr 1fr}.market-stall.garage{grid-column:auto}}
+@media  (max-height:480px){.market-hero{padding:11px 13px}.market-hero h2{font-size:25px}.market-stalls{grid-template-columns:repeat(3,minmax(0,1fr))}.market-stall{min-height:65px;padding:8px}.crate-grid{grid-template-columns:repeat(5,minmax(125px,1fr));overflow-x:auto}.cash-crate{min-height:150px;padding:9px}.cash-crate p{font-size:10px}}
+@media  (max-width:620px){.market-hero{grid-template-columns:1fr}.market-wallet{width:max-content}.market-stalls{grid-template-columns:1fr}.market-stall.garage{grid-column:auto}.crate-grid{grid-template-columns:repeat(2,minmax(135px,1fr))}}
+
+/* 0.5.7 crate opening reveal */
+.crate-reveal{display:grid;gap:14px;min-width:min(520px,82vw)}
+.crate-reveal-mark{width:74px;height:74px;margin:0 auto;display:grid;place-items:center;border:1px solid rgba(221,173,79,.45);border-radius:16px;background:linear-gradient(180deg,rgba(221,173,79,.16),rgba(12,14,16,.9));box-shadow:inset 0 0 0 1px rgba(255,255,255,.025);animation:dzCratePop .34s cubic-bezier(.2,.85,.25,1.15)}
+.crate-reveal-mark svg{width:34px;height:34px;color:#e2b25e}
+.crate-reveal-copy{text-align:center;display:grid;gap:3px}.crate-reveal-copy b{font:700 22px/1.1 var(--font-display,system-ui);letter-spacing:.04em}.crate-reveal-copy span{font-size:10px;letter-spacing:.16em;color:var(--muted,#9a9a98)}
+.crate-reward-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.crate-reward{min-width:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.09);border-left-width:3px;border-radius:7px;background:rgba(255,255,255,.025);animation:dzRewardIn .28s ease both}.crate-reward span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.crate-reward b{font-size:9px;letter-spacing:.11em;color:#b8b7b1}.crate-reward.rarity-uncommon{border-left-color:#6eaa68}.crate-reward.rarity-rare{border-left-color:#5d8fd1}.crate-reward.rarity-epic{border-left-color:#9866ce}.crate-reward.rarity-legendary,.crate-reward.rarity-prototype{border-left-color:#d6aa4f}
+@keyframes dzCratePop{from{opacity:0;transform:scale(.76) rotate(-2deg)}to{opacity:1;transform:scale(1) rotate(0)}}@keyframes dzRewardIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+@media  (max-width:620px),(max-height:430px){.crate-reveal{min-width:0}.crate-reward-list{grid-template-columns:1fr}.crate-reveal-mark{width:58px;height:58px}.crate-reveal-mark svg{width:28px;height:28px}}
+@media  (prefers-reduced-motion:reduce){.crate-reveal-mark,.crate-reward{animation:none!important}}
+
+
+/* 0.5.8 — layout lock + protected safe-zone HUD */
+.safezone-badge{
+  position:absolute;left:50%;top:calc(42px + var(--sa-t));transform:translateX(-50%);
+  z-index:26;pointer-events:none;min-height:24px;display:flex;align-items:center;justify-content:center;
+  padding:0 10px;border:1px solid rgba(126,190,128,.34);border-radius:7px;
+  background:rgba(9,18,13,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  color:#a9d9aa;font:800 9px var(--mono);letter-spacing:.13em;box-shadow:0 6px 18px rgba(0,0,0,.24)
+}
+.safezone-badge.hidden{display:none!important}
+
+/* Screens now share one predictable content column instead of ad-hoc widths. */
+.screen{overflow:hidden!important;min-width:0!important}
+.screen>.content,.screen>.market-screen{box-sizing:border-box;min-width:0;min-height:0}
+.content{width:min(1240px,100%)!important;margin-inline:auto!important}
+.market-screen{width:min(1240px,100%)!important;margin:0 auto!important;padding-inline:clamp(8px,1.8vw,18px)!important}
+.market-hero{grid-template-columns:auto minmax(0,1fr) minmax(145px,190px)!important;min-width:0}
+.market-stalls{grid-template-columns:repeat(auto-fit,minmax(205px,1fr))!important}
+.market-stall{min-width:0!important}
+.market-stall>div:nth-child(2){min-width:0}
+.market-stall span{overflow:hidden;text-overflow:ellipsis}
+.crate-grid{grid-template-columns:repeat(auto-fit,minmax(158px,1fr))!important;align-items:stretch!important;overflow:visible!important}
+.cash-crate{min-width:0!important;min-height:172px!important}
+.build-menu{width:min(560px,calc(100vw - 28px))!important;max-height:min(72vh,620px)!important;overflow:auto!important;overscroll-behavior:contain;touch-action:pan-y}
+.build-option{min-width:0!important}
+.build-option .grow{min-width:0!important}
+
+/* Modal/sheet actions stop stretching unpredictably on landscape phones. */
+.modal .row,.sheet .row{min-width:0;flex-wrap:wrap}
+.modal .btn,.sheet .btn{min-width:0}
+.raid-end{max-width:min(760px,calc(100vw - 24px))!important;max-height:calc(100% - 20px)!important;overflow:auto!important;overscroll-behavior:contain}
+
+@media  (max-width:760px){
+  .market-hero{grid-template-columns:1fr!important;padding:12px!important}
+  .market-wallet{width:100%!important;min-width:0!important;justify-content:flex-start}
+  .market-stalls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .crate-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media  (max-height:470px){
+  .safezone-badge{top:calc(35px + var(--sa-t));min-height:20px;padding:0 8px;font-size:8px}
+  .market-screen{gap:7px!important;padding-top:5px!important}
+  .market-hero{padding:9px 11px!important;gap:8px!important}
+  .market-hero p{display:none!important}.market-hero h2{font-size:23px!important;margin-bottom:2px!important}
+  .market-wallet{padding:7px 9px!important}.market-wallet b{font-size:20px!important}
+  .market-stalls{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+  .market-stall{min-height:58px!important;padding:7px!important;grid-template-columns:34px minmax(0,1fr) auto!important}
+  .stall-icon{width:32px!important;height:32px!important}.stall-icon .ic{width:18px!important;height:18px!important}
+  .market-stall b{font-size:14px!important}.market-stall span{font-size:9px!important}
+  .crate-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+  .cash-crate{min-height:125px!important;padding:8px!important;gap:5px!important}.cash-crate p{display:none!important}.cash-crate h4{font-size:14px!important}
+  .build-menu{max-height:82vh!important}
+}
+@media  (max-height:390px){
+  .safezone-badge{display:none!important}
+  .market-stalls{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .crate-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+
+/* 0.5.9 — single control geometry and tactical feedback system.
+   JavaScript computes the grouped anchors; CSS owns dimensions and animation. */
+:root{--dz-space-1:4px;--dz-space-2:8px;--dz-space-3:12px;--dz-space-4:16px;--dz-control-z:20;--dz-hud-z:25;--dz-modal-z:60;--control-size:44px;--fire-size:70px;--stick-radius:52px;--dz-panel:rgba(14,18,17,.94);--dz-amber:#d0a158;--dz-green:#7b926d;--dz-red:#a64c43}
+html,body{overscroll-behavior:none;-webkit-user-select:none;user-select:none}
+input,textarea{user-select:text;-webkit-user-select:text}
+.hud-ctl{z-index:var(--dz-control-z);touch-action:none}.hud{z-index:var(--dz-hud-z)}
+.cbtn{position:absolute;appearance:none;display:grid;place-items:center;width:var(--control-size);height:var(--control-size);min-width:44px;min-height:44px;padding:0;border:1px solid #656960;border-radius:5px;background:linear-gradient(#303630,#171c19);color:#e3e2d5;box-shadow:inset 0 1px rgba(255,255,255,.07),0 3px 7px #0005;touch-action:none;opacity:var(--co);transform:translate(-50%,-50%);transition:transform 110ms ease,border-color 110ms ease,background 120ms ease,opacity 120ms ease;pointer-events:auto;text-shadow:none}
+.cbtn .ic{width:22px;height:22px;filter:none;transition:transform 110ms ease}.cbtn span{display:none}
+.cbtn.pressed,.cbtn:active{transform:translate(-50%,-50%) scale(.94);border-color:#b4b8a7;background:#3d4439;filter:none}
+.cbtn.pressed .ic{transform:translateY(1px)}
+.cbtn.on{background:#344530;border-color:#9eac7b;color:#e5ebd9;box-shadow:inset 0 -3px #839663;animation:none}
+.cbtn.fire{width:var(--fire-size);height:var(--fire-size);border-radius:7px;background:linear-gradient(#a65043,#612c27);border-color:#bc7662;color:#f1dfd0}
+.cbtn.fire .ic{width:32px;height:32px}
+.cbtn.fire.pressed,.cbtn.fire:active{transform:translate(-50%,-50%) scale(.94);background:#a35947;border-color:#e9b598}
+.cbtn:disabled{opacity:.28;pointer-events:none}.cbtn:focus-visible,.btn:focus-visible,.ibtn:focus-visible,button:focus-visible{outline:2px solid #d7b275;outline-offset:3px}
+.cbtn.interact{width:auto;max-width:250px;min-height:44px;height:44px;padding:0 12px;display:flex;gap:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font:800 12px var(--ui);letter-spacing:.04em;background:linear-gradient(#cba969,#9e7b3f);border-color:#debf7b;color:#171b14;border-radius:5px;transform:translate(-100%,-50%) scale(.98);opacity:0;pointer-events:none;visibility:hidden;transition:opacity 120ms ease,transform 120ms ease,visibility 120ms ease;animation:none}
+.cbtn.interact.prompt-visible{opacity:var(--co);visibility:visible;pointer-events:auto;transform:translate(-100%,-50%) scale(1)}
+.cbtn.interact.pressed,.cbtn.interact:active{transform:translate(-100%,-50%) scale(.97)}
+.cbtn.interact .ic{width:20px;height:20px;flex-shrink:0}.cbtn.interact::after{display:none}
+.stick{position:absolute;width:calc(var(--stick-radius)*2);height:calc(var(--stick-radius)*2);margin:calc(0px - var(--stick-radius)) 0 0 calc(0px - var(--stick-radius));border:2px solid #83877477;border-radius:50%;background:radial-gradient(circle,#222a2080,#12171470);box-shadow:none;pointer-events:none;opacity:var(--co);transform:none;transition:opacity 120ms ease;box-sizing:border-box}
+.stick::before{content:"";position:absolute;inset:20%;border:1px dashed #adb6a033;border-radius:50%}
+.stick .knob{position:absolute;left:50%;top:50%;width:42px;height:42px;margin:-21px 0 0 -21px;border:1px solid #818a76;border-radius:50%;background:linear-gradient(#656e5e,#30392c);box-shadow:0 3px 8px #0005;box-sizing:border-box}
+.stick.idle{opacity:calc(var(--co)*.6)}.stick.aim{border-color:#ae956966}.stick.aim .knob{background:linear-gradient(#8a7855,#493f2e);border-color:#b09a70}.stick.aim.firing .knob{background:#934d40;border-color:#bd8164}
+.cbtn.feedback{animation:dzControlFeedback 120ms ease}.cbtn.reloading .ic{animation:dzReload .75s linear infinite}
+@keyframes dzControlFeedback{50%{border-color:#e1ba7a;filter:brightness(1.17)}}
+@keyframes dzReload{to{transform:rotate(360deg)}}
+/* Fixed HUD lanes keep thumb clusters free on short landscape phones. */
+.hud .tl{transform:none!important;max-width:270px;gap:6px;animation:none!important;}.hud .tl .hbtn{width:44px!important;height:44px!important;min-height:44px!important;}.hud .portrait{flex-shrink:0}
+.hud .tr{transform:none!important;right:calc(12px + var(--sa-r));top:calc(12px + var(--sa-t));gap:6px;animation:none!important;}.hud .tr .clockbox{display:none;}.hud .minimap{width:76px!important;height:76px!important;border-radius:5px;padding:0;box-shadow:none}
+.hud .compass{width:170px;top:calc(8px + var(--sa-t));animation:none!important}.hud .objective{max-width:calc(100% - 540px);top:calc(75px + var(--sa-t));font-size:10px;animation:none!important}.hud .objective::before{animation:none!important}
+.hud .safezone-badge{top:calc(38px + var(--sa-t));display:flex!important;min-height:20px;padding:0 8px;border-radius:4px;backdrop-filter:none;font-size:8px}.hud .safezone-badge.hidden{display:none!important}
+.hud .weapon-panel{transform:translateX(-50%)!important;left:44%;bottom:calc(12px + var(--sa-b));max-width:300px;display:flex;flex-direction:column;align-items:center;animation:none!important;gap:4px;filter:none;}
+.hud .wp{min-height:38px;max-width:240px;padding:2px 8px;box-sizing:border-box;border-radius:4px}.hud .wp .meta{font-size:9px}.hud .wp img{max-width:80px}.hud .quick{gap:4px}.hud .qs{width:44px!important;height:44px!important;min-height:44px;border-radius:4px}
+.hud .squad-list{top:calc(87px + var(--sa-t));left:calc(12px + var(--sa-l));max-width:160px}.hud .mate{font-size:10px;padding:3px 6px}
+.vehicle-hud{position:absolute;top:calc(76px + var(--sa-t));left:50%;transform:translateX(-50%);width:clamp(220px,32vw,360px);box-sizing:border-box;border:1px solid #7c826a;padding:8px 12px;background:#141b17ed;color:#cdd4bc;font:700 11px var(--mono);line-height:1.65;text-align:center;border-radius:4px;pointer-events:none}
+.hud-ctl.driving .cbtn:not(.interact):not([data-action="bag"]):not([data-action="ping"]),.hud-ctl.driving .stick.aim{visibility:hidden;pointer-events:none}.hud.driving .weapon-panel{display:none;}.hud.driving .objective{display:none}
+.placement-bar{position:absolute;top:calc(96px + var(--sa-t));left:50%;transform:translateX(-50%);display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;width:min(410px,calc(100% - 300px));padding:8px;background:#131914f0;border:1px solid #7c8868;border-radius:4px;pointer-events:auto;box-sizing:border-box}.placement-bar b{width:100%;text-align:center;font:11px var(--mono)}
+.btn,.ibtn,.tab,.dock-btn,.mnav,.build-option,.market-stall,.cash-crate,.auth-tab,.auth-submit{min-height:44px!important;border-radius:5px!important;transition:transform 110ms ease,border-color 110ms ease,background 140ms ease,opacity 120ms ease!important;text-shadow:none!important}
+.btn:active,.ibtn:active,.tab:active,.dock-btn:active,.mnav:active,.build-option:active,.market-stall:active,.cash-crate:active{transform:scale(.98)!important;filter:brightness(1.05)}
+.btn.small{min-height:44px!important}.btn:disabled,.disabled{opacity:.35!important}.btn .ic,.ibtn .ic{width:20px!important;height:20px!important;flex-shrink:0}
+.panel,.scrim,.modal,.sheet,.hud .tl,.hud .tr,.clockbox,.wp,.qs,.objective,.mate{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+.screen .content{overflow-y:auto;overscroll-behavior:contain;touch-action:pan-y}.sheet{border-radius:6px!important;max-width:calc(100% - var(--sa-l) - var(--sa-r) - 24px)!important;max-height:calc(100% - var(--sa-t) - var(--sa-b) - 24px)!important}.sheet-b{overflow:auto;min-height:0}.screen,.modal{animation:dzScreenIn 140ms ease-out}
+.crate-details{min-width:0;max-width:460px}.crate-contents{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;font:12px var(--mono);padding:8px;border:1px solid #4e5548;background:#0b100d}.crate-contents div{overflow-wrap:anywhere}.crate-opening{display:flex;align-items:center;justify-content:center;gap:12px;min-height:72px;font:12px var(--mono);color:#d0b079}.crate-opening .ic{width:38px;height:38px;animation:dzUnseal 700ms ease-out}.crate-details.opening .btn{display:none}
+@keyframes dzUnseal{0%{transform:scale(.9) rotate(-4deg)}35%{transform:scale(1.06) rotate(4deg)}65%{transform:scale(.96) rotate(-2deg)}100%{transform:scale(1.12)}}
+@media (max-height:470px){.hud .portrait{width:38px;height:38px;border-radius:4px}.hud .vitals{width:140px!important}.hud .vitals .name{font-size:10px}.hud .stat-row{gap:3px;font-size:9px}.hud .weapon-panel .wp{min-height:32px;}.hud .weapon-panel{max-width:200px;}.hud .objective{max-width:190px}.hud .mate{max-width:140px}.auth-wrap{box-sizing:border-box;max-height:100%;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left))}.auth-field input{min-height:44px!important}.auth-title{font-size:clamp(28px,6vw,46px)}.auth-msg{min-height:14px;margin-top:5px}.auth-card{padding:10px}.auth-sub{font-size:11px}.menu-top{gap:6px}.build-menu{width:min(520px,100%)!important;max-height:none!important}}
+@media (max-height:350px){.hud .quick{display:none}.hud .squad-list,.hud .objective{display:none}.vehicle-hud{top:calc(52px + var(--sa-t));font-size:10px}.hud .compass{display:none}.auth-wrap{overflow:auto}.placement-bar{top:calc(60px + var(--sa-t))}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:0ms!important}}
+
+.market-categories{display:flex;gap:6px;flex-wrap:wrap;flex-shrink:0}.garage-info .panel{padding:8px}.market-stalls{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))!important}
+
+.market-screen>*{flex-shrink:0}.market-hero>div{min-width:0}.market-hero h2{overflow-wrap:anywhere}
+@media(max-height:470px){.market-hero{grid-template-columns:minmax(0,1fr) 170px!important;min-height:60px!important}.market-safe{display:none!important}.market-stalls{grid-template-columns:repeat(4,minmax(0,1fr))!important}.market-stall{grid-template-columns:28px minmax(0,1fr)!important}.market-stall>strong{display:none}.market-stall span{white-space:normal!important}.market-stall b{font-size:12px!important}.crate-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}.market-sec{min-height:38px}.market-sec p{font-size:11px}.market-sec h3{font-size:18px}.market-note{font-size:8px}}
+
+/* 0.5.10 inventory owns the raid input plane; items stay above thumb controls. */
+.raid-overlay{z-index:40}.inventory-covered{visibility:hidden;pointer-events:none!important}
+.inv-screen{background:#101613!important}.inventory-ui{min-height:0;gap:8px;overflow:hidden!important}
+.inventory-layout{box-sizing:border-box}.inventory-tabs{display:flex;gap:8px;flex-shrink:0}.inventory-tabs .btn{min-width:132px}
+.inventory-ui .scroll{overscroll-behavior:contain;touch-action:pan-y}.inventory-ui .item{touch-action:none;cursor:pointer}
+.inventory-equipment,.inventory-pack,.inventory-other{box-sizing:border-box}.inventory-other{overflow:auto;min-width:0}.inventory-other>.scroll{overflow:auto}
+.inv-screen .topbar{flex-wrap:nowrap}.inv-screen .topbar .sub{white-space:normal;min-width:0;font-size:11px}.inv-screen .topbar .ibtn{flex-shrink:0}
+@media(max-height:470px){.inventory-ui{padding-top:8px!important}.inv-screen .topbar .sub{display:none}.inventory-equipment .sec-h,.inventory-pack .sec-h{margin-bottom:3px}}
+
+.market-hero{background:linear-gradient(90deg,#11180ff5,#131a13d9 38%,#161c1680),url("assets/harrow-cut-0510.png") center 48%/cover!important}
+.survivor-art{border-radius:5px;background:linear-gradient(135deg,#272c25,#111712);object-fit:contain}.screen .survivor-pad .survivor-art{border-radius:8px}
+
+.inv-screen .topbar h2{flex:1}

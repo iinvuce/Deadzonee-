@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover,interactive-widget=resizes-content">
+<title>DOVY: DEADZONE</title>
+<meta name="description" content="DOVY: DEADZONE — co-op survival, farming, vehicles and extraction by Dovy Studio.">
+<meta name="theme-color" content="#050607">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Deadzone">
+<meta name="format-detection" content="telephone=no">
+<meta name="color-scheme" content="dark">
+<meta name="application-name" content="DOVY: DEADZONE">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Chakra+Petch:wght@500;600;700&family=VT323&family=Share+Tech+Mono&display=swap">
+<style>
+html,body,#stage{margin:0;width:100%;height:100%;min-height:100%;background:#050607;overflow:hidden}html,body{overscroll-behavior:none}body{position:fixed;inset:0;width:100%;height:100%;touch-action:manipulation;font-family:"Chakra Petch",system-ui,sans-serif;color:#ece9df}#stage{position:fixed;inset:0;display:none}button{-webkit-tap-highlight-color:transparent}
+#authGate{position:fixed;inset:0;z-index:999999;display:grid;place-items:center;overflow:hidden;background:#030405;isolation:isolate}
+#authGate::before{content:"";position:absolute;inset:-15%;background:linear-gradient(90deg,rgba(2,3,4,.96),rgba(3,4,5,.72) 50%,rgba(2,3,4,.76)),radial-gradient(circle at 72% 40%,rgba(105,16,12,.2),transparent 27%),url("assets/harrow-cut-0510.png") center/cover no-repeat;animation:authFog 9s ease-in-out infinite alternate;z-index:-3}
+#authGate::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px),radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.76) 100%);mix-blend-mode:screen;opacity:.45;z-index:5}
+.auth-noise{position:absolute;inset:0;opacity:.13;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");animation:noise .25s steps(2) infinite;z-index:-1}
+.auth-wrap{width:min(92vw,460px);padding:max(22px,env(safe-area-inset-top)) max(22px,env(safe-area-inset-right)) max(22px,env(safe-area-inset-bottom)) max(22px,env(safe-area-inset-left));position:relative;z-index:8}
+.auth-kicker{font:600 11px "Share Tech Mono",monospace;letter-spacing:.32em;color:#a6a39a;text-transform:uppercase}.auth-title{font:900 clamp(38px,8vw,68px)/.84 Orbitron,sans-serif;letter-spacing:-.045em;text-transform:uppercase;margin:10px 0 4px;text-shadow:0 0 36px rgba(164,28,20,.24)}.auth-title span{display:block;color:#d24e42;letter-spacing:.08em;font-size:.58em;margin-top:10px}.auth-sub{margin:12px 0 20px;color:#9d9c95;font-size:13px;line-height:1.45}.auth-card{border:1px solid rgba(226,166,74,.24);background:linear-gradient(180deg,rgba(18,20,21,.93),rgba(8,10,10,.96));box-shadow:0 26px 70px rgba(0,0,0,.56),inset 0 1px rgba(255,255,255,.035);padding:16px;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:13px}.auth-tab,.auth-submit{appearance:none;border:1px solid #34383a;background:#111415;color:#a8aaa6;min-height:44px;font:700 13px Orbitron,sans-serif;letter-spacing:.08em}.auth-tab.on{border-color:#a8732c;color:#f2d49b;background:#251b10}.auth-submit{width:100%;margin-top:10px;background:linear-gradient(180deg,#a96e27,#684116);border-color:#d8a652;color:#08090a;box-shadow:0 8px 30px rgba(195,119,33,.15)}.auth-submit:disabled{opacity:.45}.auth-field{display:block;margin:9px 0;color:#969891;font-size:11px;text-transform:uppercase;letter-spacing:.12em}.auth-field input{display:block;width:100%;box-sizing:border-box;margin-top:5px;border:1px solid #34383a;background:#080a0b;color:#eee9df;border-radius:0;min-height:46px;padding:0 12px;font:600 16px "Chakra Petch",sans-serif;outline:none}.auth-field input:focus{border-color:#d2a04c;box-shadow:0 0 0 2px rgba(210,160,76,.12)}.auth-msg{min-height:18px;margin-top:10px;color:#d56b62;font-size:12px}.auth-msg.ok{color:#86bd73}.auth-foot{margin-top:12px;color:#6f716f;font:11px "Share Tech Mono",monospace}.auth-line{height:1px;background:linear-gradient(90deg,transparent,#7d2b25,#d8a652,#7d2b25,transparent);opacity:.45;margin:15px 0 0}.auth-creep{position:absolute;right:5%;bottom:-2%;font:900 min(22vw,180px) Orbitron;color:rgba(255,255,255,.018);transform:rotate(-8deg);letter-spacing:-.08em;z-index:-2}
+@keyframes authFog{from{transform:scale(1) translate3d(-1%,1%,0)}to{transform:scale(1.08) translate3d(2%,-1%,0)}}@keyframes noise{0%{transform:translate(0)}25%{transform:translate(-1%,1%)}50%{transform:translate(1%,-1%)}75%{transform:translate(1%,1%)}100%{transform:translate(-1%,-1%)}}
+/* Horror polish for the in-game boot loader. */
+.boot{background:radial-gradient(circle at 70% 55%,#16100e 0,#08090a 36%,#020303 100%)!important}.boot::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle,transparent 25%,rgba(0,0,0,.72) 94%),repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 4px);z-index:2}.boot .wordmark{filter:drop-shadow(0 0 18px rgba(185,48,35,.22))}.boot .dz{color:#d65348!important}.boot .boot-start{animation:bootPulse 1.7s ease-in-out infinite}.boot .boot-sub{letter-spacing:.06em}.boot .boot-kick{color:#a6a39a!important}@keyframes bootPulse{50%{filter:brightness(1.25);box-shadow:0 0 25px rgba(210,82,55,.18)}}
+@media (max-height:460px){.auth-wrap{width:min(88vw,700px);display:grid;grid-template-columns:1fr minmax(300px,390px);gap:24px;align-items:center}.auth-copy{min-width:0}.auth-sub{margin-bottom:0}.auth-card{padding:12px}.auth-field{margin:5px 0}.auth-field input{min-height:40px}.auth-submit{min-height:40px}.auth-foot{display:none}}
+@media (prefers-reduced-motion:reduce){#authGate::before,.auth-noise,.auth-submit,.boot .boot-start{animation:none!important}}
+
+/* 0.5.4 professional auth controls */
+.auth-tabs{gap:4px!important;padding:3px;background:rgba(6,8,9,.65);border:1px solid rgba(232,224,208,.10);border-radius:9px}
+.auth-tab,.auth-submit{border-radius:6px!important;transition:transform .10s ease,border-color .14s ease,background .14s ease,filter .14s ease!important;text-shadow:none!important;box-shadow:none}
+.auth-tab{border-color:transparent!important;background:transparent!important;color:#8f918d!important;font:700 12px "Chakra Petch",sans-serif!important;letter-spacing:.08em!important}
+.auth-tab.on{border-color:rgba(226,166,74,.22)!important;background:#2a241c!important;color:#f0dfbf!important;box-shadow:inset 0 0 0 1px rgba(226,166,74,.08)!important}
+.auth-submit{min-height:48px!important;border:1px solid rgba(255,222,161,.58)!important;background:linear-gradient(180deg,#ebc174,#d9a451 55%,#a8752f)!important;color:#17130d!important;font:800 13px "Chakra Petch",sans-serif!important;letter-spacing:.075em!important;box-shadow:0 8px 22px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.28)!important}
+.auth-submit:active,.auth-tab:active{transform:translateY(1px) scale(.99)!important;filter:brightness(.97)}
+.auth-submit:disabled{opacity:.34!important;box-shadow:none!important}
+@media(hover:hover) and (pointer:fine){.auth-submit:not(:disabled):hover{filter:brightness(1.035)}.auth-tab:hover{color:#d5d2ca!important;background:rgba(255,255,255,.025)!important}}
+
+</style>
+<script>
+window.DZ_CONFIG={api:location.origin,ws:(location.protocol==='https:'?'wss://':'ws://')+location.host+'/ws',online:null};
+</script>
+</head>
+<body>
+<div id="authGate" aria-live="polite">
+  <div class="auth-noise"></div><div class="auth-creep">DZ</div>
+  <div class="auth-wrap">
+    <div class="auth-copy"><div class="auth-kicker">Dovy Studio // Blackwood Network</div><div class="auth-title">DOVY:<span>DEADZONE</span></div><div class="auth-sub">The network is still alive. Sign in to keep your survivor, stash and squad synced between sessions.</div></div>
+    <form id="authForm" class="auth-card">
+      <div class="auth-tabs"><button type="button" class="auth-tab on" data-mode="login">SIGN IN</button><button type="button" class="auth-tab" data-mode="register">REGISTER</button></div>
+      <label class="auth-field">Email<input id="authEmail" type="email" autocomplete="email" inputmode="email" required placeholder="survivor@email.com"></label>
+      <label class="auth-field">Password<input id="authPass" type="password" autocomplete="current-password" minlength="8" required placeholder="8+ characters"></label>
+      <button id="authSubmit" class="auth-submit" type="submit">ENTER DEADZONE</button>
+      <div id="authMsg" class="auth-msg"></div><div class="auth-line"></div><div class="auth-foot">ACCOUNT REQUIRED · CO-OP READY · PROFILE CLOUD SAVE</div>
+    </form>
+  </div>
+</div>
+<div id="stage"></div>
+<script>
+(()=>{
+ const gate=document.getElementById('authGate'),form=document.getElementById('authForm'),msg=document.getElementById('authMsg'),email=document.getElementById('authEmail'),pass=document.getElementById('authPass'),submit=document.getElementById('authSubmit');
+ const foot=gate.querySelector('.auth-foot');
+ const LOCAL_KEY='dz_local_auth_v1', LOCAL_SESSION='dz_local_session_v1';
+ let mode='login',launched=false,online=false,checked=false;
+ function setMode(m){mode=m;document.querySelectorAll('.auth-tab').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));submit.textContent=m==='register'?(online?'CREATE SURVIVOR ACCOUNT':'CREATE LOCAL SURVIVOR'):(online?'ENTER DEADZONE':'ENTER LOCAL DEADZONE');pass.autocomplete=m==='register'?'new-password':'current-password';msg.textContent='';}
+ document.querySelectorAll('.auth-tab').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+ function status(t,ok=false){msg.textContent=t||'';msg.classList.toggle('ok',ok)}
+ function setBackend(isOnline){online=!!isOnline;checked=true;window.DZ_CONFIG.online=online;if(!online){window.DZ_CONFIG.api=null;window.DZ_CONFIG.ws=null;foot.textContent='LOCAL PREVIEW · SAVES ON THIS DEVICE · CO-OP NEEDS ONLINE SERVER';status('Online server not detected. Local preview mode is ready.',true);}else{foot.textContent='ACCOUNT REQUIRED · CO-OP READY · PROFILE CLOUD SAVE';}setMode(mode)}
+ async function health(){
+   if(location.protocol==='file:'){setBackend(false);return false;}
+   const c=new AbortController(),t=setTimeout(()=>c.abort(),2200);
+   try{
+     const r=await fetch('/api/health',{cache:'no-store',credentials:'include',headers:{accept:'application/json'},signal:c.signal});
+     clearTimeout(t);
+     const ct=(r.headers.get('content-type')||'').toLowerCase();
+     if(!r.ok||!ct.includes('application/json')){setBackend(false);return false;}
+     let j=null;try{j=await r.json()}catch{}
+     const valid=!!(j&&j.ok===true&&['sqlite','d1'].includes(j.database)&&typeof j.version==='string');
+     setBackend(valid);return valid;
+   }catch{clearTimeout(t);setBackend(false);return false}
+ }
+ async function request(url,body){
+   const c=new AbortController(),t=setTimeout(()=>c.abort(),4500);
+   let r;
+   try{r=await fetch(url,{method:'POST',headers:{'content-type':'application/json',accept:'application/json'},credentials:'include',cache:'no-store',body:JSON.stringify(body),signal:c.signal})}
+   catch(err){clearTimeout(t);const e=new Error('Online server is unavailable. Switching to local preview.');e.backendUnavailable=true;throw e}
+   clearTimeout(t);
+   const ct=(r.headers.get('content-type')||'').toLowerCase();
+   if(!ct.includes('application/json')){const e=new Error('Online server is unavailable. Switching to local preview.');e.backendUnavailable=true;throw e}
+   let j={};try{j=await r.json()}catch{}
+   if(!r.ok){const e=new Error(j.error||'Could not sign in.');e.backendUnavailable=r.status>=500;throw e}
+   return j
+ }
+ function simpleHash(s){let h1=0x811c9dc5,h2=0x9e3779b9;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);h1=Math.imul(h1^c,16777619);h2=Math.imul(h2^(c+i),2246822519)}return (h1>>>0).toString(36)+(h2>>>0).toString(36)}
+ async function digest(s){try{if(crypto?.subtle&&window.isSecureContext){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}}catch{}return simpleHash(s)}
+ async function localAuth(){
+   const em=email.value.trim().toLowerCase(),pw=pass.value;
+   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))throw new Error('Enter a valid email address.');
+   if(pw.length<8)throw new Error('Password must be at least 8 characters.');
+   let rec=null;try{rec=JSON.parse(localStorage.getItem(LOCAL_KEY)||'null')}catch{}
+   if(mode==='register'){
+     if(rec&&rec.email===em)throw new Error('A local account with that email already exists. Sign in instead.');
+     const salt=(crypto?.randomUUID?.()||Math.random().toString(36).slice(2))+Date.now().toString(36),hash=await digest(salt+'|'+pw);
+     rec={email:em,salt,hash,createdAt:Date.now()};localStorage.setItem(LOCAL_KEY,JSON.stringify(rec));localStorage.setItem(LOCAL_SESSION,em);return;
+   }
+   if(!rec||rec.email!==em)throw new Error('No local account found. Tap REGISTER first.');
+   const hash=await digest(rec.salt+'|'+pw);if(hash!==rec.hash)throw new Error('Email or password is incorrect.');
+   localStorage.setItem(LOCAL_SESSION,em);
+ }
+ function launch(local=false){if(launched)return;launched=true;if(local){window.DZ_LOCAL_PREVIEW=true;window.DZ_CONFIG.api=null;window.DZ_CONFIG.ws=null;status('Local survivor accepted. Preparing Deadzone…',true)}else status('Connection accepted. Preparing Deadzone…',true);const stage=document.getElementById('stage'),reveal=()=>{if(!gate.isConnected)return;stage.style.display='block';requestAnimationFrame(()=>{gate.style.transition='opacity .5s ease';gate.style.opacity='0';setTimeout(()=>gate.remove(),520)})};const s=document.createElement('script');s.src='game.js?v=0.5.10-cf1';s.defer=true;s.addEventListener('error',()=>status('Game files could not be loaded. Reload and try again.'));s.addEventListener('load',()=>{const l=document.createElement('link');l.rel='stylesheet';l.href='polish.css?v=0.5.10-cf1';let done=false,show=()=>{if(done)return;done=true;reveal()};l.addEventListener('load',show,{once:true});l.addEventListener('error',show,{once:true});document.head.appendChild(l);setTimeout(show,1400)});document.body.appendChild(s);if('serviceWorker'in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('sw.js?v=0.5.10-cf1',{updateViaCache:'none'}).then(r=>r.update().catch(()=>{})).catch(()=>{});}
+ window.DZ_LOGOUT=async()=>{if(window.DZ_LOCAL_PREVIEW){try{localStorage.removeItem(LOCAL_SESSION)}catch{}location.reload();return}try{await fetch('/api/logout',{method:'POST',credentials:'include',cache:'no-store'});}catch{}try{if('caches'in window){for(const k of await caches.keys())if(k.startsWith('dz-core-'))await caches.delete(k);}}catch{}location.reload();};
+ async function check(){
+   const ok=await health();
+   if(ok){try{const r=await fetch('/api/me',{credentials:'include',cache:'no-store'});if(r.ok){launch(false);return}}catch{}status('Sign in or register to continue.');return}
+   try{const ses=localStorage.getItem(LOCAL_SESSION),rec=JSON.parse(localStorage.getItem(LOCAL_KEY)||'null');if(ses&&rec?.email===ses){email.value=ses;launch(true);return}}catch{}
+ }
+ form.addEventListener('submit',async e=>{
+   e.preventDefault();submit.disabled=true;status(mode==='register'?'Creating account…':'Checking credentials…');
+   try{
+     if(!checked)await health();
+     if(online){
+       try{await request('/api/'+mode,{email:email.value.trim(),password:pass.value});launch(false);return}
+       catch(err){
+         if(!err?.backendUnavailable)throw err;
+         setBackend(false);
+         status('Cloud server unavailable. Switching to local preview…',true);
+       }
+     }
+     await localAuth();launch(true);
+   }catch(err){status(err?.message||'Could not sign in.')}
+   finally{submit.disabled=false}
+ });
+ check();
+})();
+</script>
+</body>
+</html>

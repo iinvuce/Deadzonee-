@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#080a0c">
+<title>DOVY: DEADZONE — Admin</title>
+<style>
+:root{--bg:#080a0c;--panel:#10151a;--panel2:#151b20;--line:#263039;--text:#e9ecef;--muted:#88939c;--red:#c73b35;--amber:#d8a34b;--green:#50c77b;--blue:#5ba9d6;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#151b20 0,#080a0c 38%),#080a0c;color:var(--text);min-height:100vh}button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+#auth{min-height:100vh;display:grid;place-items:center;padding:24px;background:linear-gradient(90deg,rgba(5,6,8,.95),rgba(5,6,8,.76)),url('assets/admin.jpg') center/cover}.login{width:min(420px,100%);background:rgba(10,13,16,.94);border:1px solid var(--line);padding:26px;box-shadow:0 30px 80px #0008}.logo{font-weight:1000;line-height:.85;letter-spacing:-.04em;font-size:44px}.logo span{display:block;color:var(--red)}.sub{color:var(--muted);font-size:13px;margin:12px 0 24px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}input{width:100%;background:#0a0e11;border:1px solid #2b353d;color:#fff;border-radius:7px;padding:12px;outline:none}input:focus{border-color:var(--amber);box-shadow:0 0 0 3px #d8a34b1c}.btn{border:1px solid #3a454d;background:#182026;color:#fff;padding:10px 14px;border-radius:7px;font-weight:800}.btn:hover{border-color:#65737e}.primary{background:linear-gradient(#d14b42,#9e2825);border-color:#e26860}.amber{background:linear-gradient(#d2a149,#946a25);color:#100d07;border-color:#e6bd70}.danger{color:#ff8d88;border-color:#763936}.good{color:#76dc9a}.err{color:#ff8c87;font-size:13px;min-height:19px;margin-top:10px}
+#app{min-height:100vh;display:grid;grid-template-columns:210px 1fr}.side{position:sticky;top:0;height:100vh;border-right:1px solid var(--line);background:#0b0f12;padding:20px 14px;display:flex;flex-direction:column}.side .logo{font-size:27px;margin:4px 8px 28px}.nav{display:grid;gap:6px}.nav button{text-align:left;background:transparent;border:1px solid transparent;color:#9aa4ac;padding:10px 12px;border-radius:7px;font-weight:700}.nav button.active,.nav button:hover{background:#171d22;border-color:#2d373e;color:#fff}.nav button.active{box-shadow:inset 3px 0 var(--red)}.sidefoot{margin-top:auto;font-size:11px;color:var(--muted);padding:10px}.main{padding:24px;min-width:0}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:22px}.top h1{font-size:29px;margin:0}.top p{margin:5px 0;color:var(--muted);font-size:13px}.status{display:flex;align-items:center;gap:8px;font-size:12px;background:#10171a;border:1px solid #28343a;padding:8px 11px;border-radius:999px}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+.cards{display:grid;grid-template-columns:repeat(6,minmax(130px,1fr));gap:10px;margin-bottom:18px}.card,.panel{background:linear-gradient(180deg,#13191e,#0f1418);border:1px solid var(--line);border-radius:10px}.card{padding:14px}.card .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.card .v{font-size:27px;font-weight:900;margin-top:5px}.card .small{font-size:11px;color:var(--muted);margin-top:2px}.grid2{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:14px}.panel{padding:16px;min-width:0}.panel h2{font-size:16px;margin:0 0 12px}.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:12px}.table th{text-align:left;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:8px;border-bottom:1px solid #273039}.table td{padding:9px 8px;border-bottom:1px solid #1c252b;white-space:nowrap}.pill{display:inline-block;border-radius:999px;padding:3px 7px;font-size:10px;background:#20282e}.pill.on{color:#6cdf90;background:#12331f}.pill.off{color:#9ca6ad}.money{color:var(--amber)}.searchbar{display:flex;gap:8px;margin-bottom:12px}.searchbar input{max-width:340px}.actions{display:flex;gap:5px}.mini{padding:5px 7px;font-size:10px}.grant{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:10px}.grant input{padding:8px;font-size:12px}.economy{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.econ{background:#0a0e11;border:1px solid #222c32;padding:12px;border-radius:8px}.econ b{display:block;font-size:20px;margin-top:3px}.note{font-size:11px;color:var(--muted);line-height:1.45}.empty{color:var(--muted);padding:14px;text-align:center}.toast{position:fixed;right:18px;bottom:18px;background:#11181d;border:1px solid #35434d;padding:11px 14px;border-radius:8px;box-shadow:0 12px 30px #0009;font-size:12px;z-index:10;opacity:0;transform:translateY(8px);transition:.18s}.toast.show{opacity:1;transform:none}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}.grid2{grid-template-columns:1fr}}@media(max-width:700px){#app{display:block}.side{height:auto;position:static;border-right:0;border-bottom:1px solid var(--line);padding:12px}.side .logo{margin:0 0 9px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap}.sidefoot{display:none}.main{padding:14px}.cards{grid-template-columns:repeat(2,1fr)}.top{align-items:center}.status{display:none}.grant{grid-template-columns:1fr}}
+
+/* 0.5.4 professional admin controls */
+.btn{min-height:40px;border:1px solid rgba(232,236,239,.14)!important;background:linear-gradient(180deg,#20272c,#151a1e)!important;color:#e8ebed!important;padding:0 14px!important;border-radius:7px!important;font-weight:750!important;letter-spacing:.015em;box-shadow:0 5px 14px #0004,inset 0 1px #ffffff08;transition:transform .1s ease,border-color .14s ease,background .14s ease,filter .14s ease}
+.btn:hover{border-color:#53616b!important;filter:brightness(1.04)}.btn:active{transform:translateY(1px);filter:brightness(.96)}
+.btn.primary,.btn.amber{background:linear-gradient(180deg,#e4b868,#c88f39)!important;border-color:#e9c986!important;color:#171109!important;box-shadow:0 7px 18px #0005,inset 0 1px #ffffff42!important}
+.btn.danger{background:#2a1919!important;color:#ef9a94!important;border-color:#633633!important}.btn.good{background:#16241c!important;color:#84d99f!important;border-color:#315d40!important}
+.btn.mini{min-height:32px!important;padding:0 9px!important;font-size:10px!important}
+.nav button{min-height:40px;border-radius:7px!important;transition:background .14s ease,border-color .14s ease,color .14s ease,transform .1s ease}.nav button.active,.nav button:hover{background:#151a1e!important;border-color:#28333a!important}.nav button.active{box-shadow:inset 2px 0 var(--amber)!important;color:#fff!important}.nav button:active{transform:translateY(1px)}
+
+</style>
+</head>
+<body>
+<section id="auth">
+  <form class="login" id="loginForm">
+    <div class="logo">DOVY<span>DEADZONE</span></div>
+    <div class="sub">Owner console · player economy, live squads and purchases</div>
+    <div class="field"><label>Admin password</label><input id="password" type="password" autocomplete="current-password" required></div>
+    <button class="btn primary" style="width:100%" type="submit">OPEN COMMAND</button>
+    <div class="err" id="loginErr"></div>
+  </form>
+</section>
+<div id="app" class="hidden">
+  <aside class="side">
+    <div class="logo">DOVY<span>DEADZONE</span></div>
+    <div class="nav"><button class="active" data-view="dashboard">Dashboard</button><button data-view="players">Players</button></div>
+    <div class="sidefoot"><button class="btn" id="logout">Sign out</button><div style="margin-top:10px">Admin actions are server-side and logged.</div></div>
+  </aside>
+  <main class="main">
+    <div class="top"><div><h1 id="viewTitle">Server Overview</h1><p id="viewSub">Live game health, economy and player activity.</p></div><div class="status"><span class="dot"></span> Server Online · <span id="ver">0.5.0</span></div></div>
+    <section id="dashboardView">
+      <div class="cards" id="metrics"></div>
+      <div class="grid2">
+        <div class="panel"><h2>Recent Players</h2><div class="tablewrap"><table class="table"><thead><tr><th>Player</th><th>Email</th><th>Status</th><th>Last seen</th></tr></thead><tbody id="recentPlayers"></tbody></table></div></div>
+        <div class="panel"><h2>Economy Snapshot</h2><div class="economy" id="economy"></div><p class="note" style="margin-top:12px">Use this to spot inflation early. Cash is intentionally earnable through farming, raids and trading; premium credits remain server-delivered only after verified purchases.</p></div>
+      </div>
+      <div class="panel" style="margin-top:14px"><h2>Recent Purchases</h2><div class="tablewrap"><table class="table"><thead><tr><th>Player</th><th>Product</th><th>Amount</th><th>Time</th></tr></thead><tbody id="purchases"></tbody></table></div></div>
+    </section>
+    <section id="playersView" class="hidden">
+      <div class="panel">
+        <div class="searchbar"><input id="playerSearch" placeholder="Search player email"><button class="btn" id="searchBtn">Search</button><button class="btn" id="refreshPlayers">Refresh</button></div>
+        <div class="tablewrap"><table class="table"><thead><tr><th>Survivor</th><th>Email</th><th>Level</th><th>Cash</th><th>Credits</th><th>Tokens</th><th>Last seen</th><th>Actions</th></tr></thead><tbody id="playersTable"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const money=p=>'£'+(Number(p||0)/100).toFixed(2); const num=n=>Number(n||0).toLocaleString();
+const ago=t=>{if(!t)return 'Never';let s=Math.max(0,(Date.now()-t)/1000);if(s<60)return Math.round(s)+'s ago';if(s<3600)return Math.round(s/60)+'m ago';if(s<86400)return Math.round(s/3600)+'h ago';return Math.round(s/86400)+'d ago'};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(path,opt={}){const r=await fetch(path,{credentials:'include',headers:{'content-type':'application/json',...(opt.headers||{})},...opt});let b=await r.json().catch(()=>({}));if(!r.ok)throw new Error(b.error||'Request failed');return b}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2200)}
+async function check(){try{await api('/api/admin/me');showApp();await loadOverview()}catch{$('#auth').classList.remove('hidden')}}
+function showApp(){$('#auth').classList.add('hidden');$('#app').classList.remove('hidden')}
+$('#loginForm').addEventListener('submit',async e=>{e.preventDefault();$('#loginErr').textContent='';try{await api('/api/admin/login',{method:'POST',body:JSON.stringify({password:$('#password').value})});showApp();await loadOverview()}catch(err){$('#loginErr').textContent=err.message}});
+$('#logout').addEventListener('click',async()=>{await api('/api/admin/logout',{method:'POST'}).catch(()=>{});location.reload()});
+$$('.nav button').forEach(b=>b.addEventListener('click',()=>{let v=b.dataset.view;$$('.nav button').forEach(x=>x.classList.toggle('active',x===b));$('#dashboardView').classList.toggle('hidden',v!=='dashboard');$('#playersView').classList.toggle('hidden',v!=='players');$('#viewTitle').textContent=v==='dashboard'?'Server Overview':'Players';$('#viewSub').textContent=v==='dashboard'?'Live game health, economy and player activity.':'Search accounts, moderate access and adjust economy values.';if(v==='players')loadPlayers()}));
+async function loadOverview(){const d=await api('/api/admin/overview');$('#ver').textContent=d.version;const cards=[['Players Online',d.playersOnline,'Live WebSocket clients'],['Total Accounts',d.accounts,'Registered survivors'],['Active Squads',d.activeSquads,'Open co-op rooms'],['Revenue',money(d.revenuePence),'Verified payments'],['Purchases',d.purchaseCount,'Completed transactions'],['DAU',d.dau,'Active last 24h']];$('#metrics').innerHTML=cards.map(([k,v,s])=>`<div class="card"><div class="k">${k}</div><div class="v">${v}</div><div class="small">${s}</div></div>`).join('');$('#recentPlayers').innerHTML=(d.recent||[]).map(p=>`<tr><td>${esc(p.id.slice(0,8))}</td><td>${esc(p.email)}</td><td><span class="pill ${p.banned?'':'on'}">${p.banned?'Banned':'Active'}</span></td><td>${ago(p.last_seen)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">No accounts yet</td></tr>';$('#economy').innerHTML=`<div class="econ">Cash<b class="money">$${num(d.economy.cash)}</b></div><div class="econ">Credits<b>${num(d.economy.credits)}</b></div><div class="econ">Tokens<b>${num(d.economy.tokens)}</b></div>`;$('#purchases').innerHTML=(d.recentPurchases||[]).map(p=>`<tr><td>${esc(p.email)}</td><td>${esc(p.product_id)}</td><td class="money">${money(p.amount_pence)}</td><td>${ago(p.created_at)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">No verified purchases yet</td></tr>';}
+async function loadPlayers(){const q=$('#playerSearch').value.trim();const d=await api('/api/admin/players'+(q?'?q='+encodeURIComponent(q):''));$('#playersTable').innerHTML=(d.players||[]).map(p=>`<tr data-id="${esc(p.id)}"><td><b>${esc(p.name)}</b>${p.banned?' <span class="pill">BANNED</span>':''}</td><td>${esc(p.email)}</td><td>${p.level}</td><td class="money">$${num(p.cash)}</td><td>${num(p.credits)}</td><td>${num(p.tokens)}</td><td>${ago(p.lastSeen)}</td><td><div class="actions"><button class="btn mini grantBtn">Grant</button><button class="btn mini ${p.banned?'good':'danger'} banBtn" data-ban="${p.banned?0:1}">${p.banned?'Unban':'Ban'}</button></div></td></tr>`).join('')||'<tr><td colspan="8" class="empty">No players found</td></tr>';$$('.grantBtn').forEach(b=>b.onclick=grantRow);$$('.banBtn').forEach(b=>b.onclick=banRow)}
+async function grantRow(e){const tr=e.target.closest('tr'),id=tr.dataset.id;const cash=prompt('Cash adjustment (e.g. 5000 or -1000)','5000');if(cash===null)return;const credits=prompt('DOVY Credits adjustment','0');if(credits===null)return;const tokens=prompt('Black-market tokens adjustment','0');if(tokens===null)return;try{await api(`/api/admin/player/${encodeURIComponent(id)}/grant`,{method:'POST',body:JSON.stringify({cash:Number(cash),credits:Number(credits),tokens:Number(tokens)})});toast('Player economy updated');loadPlayers();loadOverview()}catch(err){toast(err.message)}}
+async function banRow(e){const tr=e.target.closest('tr'),id=tr.dataset.id,ban=e.target.dataset.ban==='1';if(!confirm(`${ban?'Ban':'Unban'} this player?`))return;try{await api(`/api/admin/player/${encodeURIComponent(id)}/ban`,{method:'POST',body:JSON.stringify({banned:ban})});toast(ban?'Player banned':'Player unbanned');loadPlayers();loadOverview()}catch(err){toast(err.message)}}
+$('#searchBtn').onclick=loadPlayers;$('#refreshPlayers').onclick=loadPlayers;$('#playerSearch').addEventListener('keydown',e=>{if(e.key==='Enter')loadPlayers()});
+check();setInterval(()=>{if(!$('#app').classList.contains('hidden')&&!$('#dashboardView').classList.contains('hidden'))loadOverview().catch(()=>{})},10000);
+</script>
+</body></html>

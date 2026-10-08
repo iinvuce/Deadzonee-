@@ -1,0 +1,17 @@
+{
+  "name": "dovy-deadzone-cloudflare",
+  "version": "0.5.10-cloudflare.phone1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "node --check src/worker.mjs && node --check public/game.js && node --check public/sw.js",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "db:local": "wrangler d1 migrations apply deadzone-db --local",
+    "db:remote": "wrangler d1 migrations apply deadzone-db --remote",
+    "phone:deploy": "bash PHONE_DEPLOY.sh"
+  },
+  "devDependencies": {
+    "wrangler": "^4.119.0"
+  }
+}

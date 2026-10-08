@@ -1,0 +1,15 @@
+DOVY: DEADZONE — CO-OP
+
+Static preview = SOLO ONLY.
+
+For friends:
+1. Put this whole folder on one Node.js 22+ HTTPS server.
+2. Run: npm start
+3. Everyone opens the same game URL.
+4. Squad -> HOST SQUAD.
+5. Share the invite/code.
+6. Friends JOIN SQUAD.
+7. Everyone READY.
+8. Leader DEPLOY SQUAD.
+
+The multiplayer server and WebSocket room system are already included in server.mjs.

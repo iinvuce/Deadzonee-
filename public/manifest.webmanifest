@@ -1,0 +1,30 @@
+{
+  "name": "DOVY: DEADZONE",
+  "short_name": "Deadzone",
+  "description": "Co-op 2D survival: scavenge, drive, build, grow crops, trade and extract with friends.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#050607",
+  "theme_color": "#050607",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "games",
+    "entertainment"
+  ],
+  "version": "0.5.10-cloudflare.1"
+}
